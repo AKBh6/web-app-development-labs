@@ -2,7 +2,6 @@ import csv
 import sys
 import matplotlib.pyplot as plt
 
-
 def write_error():
     html = """<!DOCTYPE html>
 <html>
