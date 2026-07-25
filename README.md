@@ -27,7 +27,6 @@ A database-driven web application built with **Flask**, **SQLAlchemy ORM**, **SQ
 ```
 .
 ├── app.py
-├── database.sqlite3
 ├── templates/
 │   ├── index.html
 │   ├── create.html
