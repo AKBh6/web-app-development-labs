@@ -31,7 +31,6 @@ def load_data():
 
             for row in reader:
                 data.append(row)
-
     except Exception:
         return None
 
