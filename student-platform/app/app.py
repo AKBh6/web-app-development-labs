@@ -3,7 +3,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+
+app = Flask(
+    __name__,
+    template_folder=str(BASE_DIR.parent / "templates"),
+    static_folder=str(BASE_DIR.parent / "static")
+)
 
 app.config["SECRET_KEY"] = "prototype-secret-key"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.sqlite3"
