@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 
