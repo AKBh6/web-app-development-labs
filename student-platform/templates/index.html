@@ -1,0 +1,88 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | CampusDesk{% endblock %}
+
+{% block content %}
+<section class="welcome">
+    <div>
+        <p class="eyebrow">STUDENT ADMINISTRATION</p>
+        <h1>Dashboard</h1>
+        <p class="muted">Manage students and course enrollments in one place.</p>
+    </div>
+    <a class="button primary" href="{{ url_for('create_student') }}">+ Add Student</a>
+</section>
+
+<section class="stats">
+    <div class="stat-card">
+        <p>Total Students</p>
+        <h2>{{ student_count }}</h2>
+    </div>
+    <div class="stat-card">
+        <p>Available Courses</p>
+        <h2>{{ course_count }}</h2>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Student Directory</h2>
+            <p class="muted">All registered students</p>
+        </div>
+        <span class="count">{{ student_count }} students</span>
+    </div>
+
+    {% if students %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Student</th>
+                    <th>Enrolled Courses</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td><span class="roll">{{ student.roll_number }}</span></td>
+                    <td>
+                        <strong>{{ student.full_name }}</strong>
+                    </td>
+                    <td>
+                        {% if student.enrollments %}
+                            {% for enrollment in student.enrollments %}
+                                <span class="tag">{{ enrollment.course.course_code }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="muted">None</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <a href="{{ url_for('student_details', student_id=student.student_id) }}">View</a>
+                            <a href="{{ url_for('update_student', student_id=student.student_id) }}">Edit</a>
+                            <form method="POST"
+                                  action="{{ url_for('delete_student', student_id=student.student_id) }}">
+                                <button class="link-button danger-text" type="submit">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty">
+        <h3>No students yet</h3>
+        <p class="muted">Add your first student to get started.</p>
+        <a class="button primary" href="{{ url_for('create_student') }}">Add Student</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

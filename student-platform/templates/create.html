@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+{% block title %}Add Student | CampusDesk{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <a class="back-link" href="{{ url_for('index') }}">← Dashboard</a>
+
+    <section class="panel form-panel">
+        <p class="eyebrow">STUDENT RECORDS</p>
+        <h1>Add Student</h1>
+        <p class="muted">Enter the student's details and select courses.</p>
+
+        <form method="POST">
+            <label for="roll">Roll Number *</label>
+            <input id="roll" name="roll" required maxlength="30"
+                   value="{{ request.form.get('roll', '') }}">
+
+            <label for="first_name">First Name *</label>
+            <input id="first_name" name="first_name" required maxlength="80"
+                   value="{{ request.form.get('first_name', '') }}">
+
+            <label for="last_name">Last Name</label>
+            <input id="last_name" name="last_name" maxlength="80"
+                   value="{{ request.form.get('last_name', '') }}">
+
+            <label>Course Enrollment</label>
+            <div class="course-list">
+                {% for course in courses %}
+                <label class="course-option">
+                    <input type="checkbox" name="courses"
+                           value="{{ course.course_id }}"
+                           {% if course.course_id|string in request.form.getlist('courses') %}checked{% endif %}>
+                    <span>
+                        <strong>{{ course.course_code }}</strong>
+                        <small>{{ course.course_name }}</small>
+                    </span>
+                </label>
+                {% endfor %}
+            </div>
+
+            <div class="form-actions">
+                <a class="button secondary" href="{{ url_for('index') }}">Cancel</a>
+                <button class="button primary" type="submit">Create Student</button>
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}

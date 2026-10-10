@@ -1,0 +1,48 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ student.full_name }} | CampusDesk{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{{ url_for('index') }}">← Dashboard</a>
+
+<section class="profile-header">
+    <div class="avatar">{{ student.first_name[0]|upper }}</div>
+    <div>
+        <p class="eyebrow">STUDENT PROFILE</p>
+        <h1>{{ student.full_name }}</h1>
+        <p class="muted">Roll Number: {{ student.roll_number }}</p>
+    </div>
+    <a class="button primary" href="{{ url_for('update_student', student_id=student.student_id) }}">
+        Edit Student
+    </a>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Enrolled Courses</h2>
+            <p class="muted">Courses associated with this student</p>
+        </div>
+        <span class="count">{{ student.enrollments|length }} courses</span>
+    </div>
+
+    {% if student.enrollments %}
+        <div class="course-list">
+            {% for enrollment in student.enrollments %}
+            <div class="course-option">
+                <span class="course-code">{{ enrollment.course.course_code }}</span>
+                <span>
+                    <strong>{{ enrollment.course.course_name }}</strong>
+                    <small>{{ enrollment.course.course_description or 'No description available' }}</small>
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty">
+            <p>This student is not enrolled in any courses.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
